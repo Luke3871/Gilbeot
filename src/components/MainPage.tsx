@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import svgPaths from "../imports/svg-spnwqt0hcg";
 import imgMagnifier1 from "figma:asset/d0e0353cab5ee4a2f8f42c9390cf467acd4dc4d7.png";
 import imgWeatherApp1 from "figma:asset/3c1b8a2cf2bd7b054f990d352f805fb6d4f57dac.png";
+import imgFreeIconSun143222011 from "figma:asset/9040eb7bb7c7dbc26f4cc4d894fe8eb09d3a0ffc.png"; // 맑음
+import imgFreeIconRainy48378071 from "figma:asset/b51afe743783e5d334bfbc7fe3e4d8f95aa92ce2.png"; // 비
+import imgFreeIconHeatwave176495541 from "figma:asset/6848cddb290bc168041765604099d6db945b78f7.png"; // 폭염
+import imgFreeIconThermometer100438981 from "figma:asset/fce20544b46886313762578b47d2089e417d5c88.png"; // 한파
 import WeatherDetailClear from './WeatherDetailClear';
 import WeatherDetailRain from './WeatherDetailRain';
 import WeatherDetailHeatwave from './WeatherDetailHeatwave';
@@ -21,6 +25,21 @@ export default function MainPage() {
   const [showWeatherModal, setShowWeatherModal] = useState<WeatherType>(null);
   const [currentWeather, setCurrentWeather] = useState<WeatherType>('clear'); // 현재 날씨 상태
   const [showRouteSearch, setShowRouteSearch] = useState(false);
+
+  // 날씨별 텍스트 및 아이콘
+  const weatherText = {
+    clear: '맑음',
+    rain: '비',
+    heatwave: '폭염',
+    coldwave: '한파'
+  };
+
+  const weatherIcons = {
+    clear: imgFreeIconSun143222011,
+    rain: imgFreeIconRainy48378071,
+    heatwave: imgFreeIconHeatwave176495541,
+    coldwave: imgFreeIconThermometer100438981
+  };
 
   useEffect(() => {
     // 카카오맵 API 스크립트 로드
@@ -84,15 +103,28 @@ export default function MainPage() {
     }
   };
 
+  // 날씨 변경 (개발용 - 테스트용)
+  const cycleWeather = () => {
+    const weatherTypes: WeatherType[] = ['clear', 'rain', 'heatwave', 'coldwave'];
+    const currentIndex = weatherTypes.indexOf(currentWeather || 'clear');
+    const nextIndex = (currentIndex + 1) % weatherTypes.length;
+    setCurrentWeather(weatherTypes[nextIndex]);
+  };
+
   return (
     <div className="relative size-full" data-name="메인 페이지">
       <div className="absolute bg-white h-[852px] left-0 top-0 w-[393px]" data-name="bg" />
       
       {/* 지도 영역 */}
       <div 
-        ref={mapContainer}
-        className="absolute bg-white h-[502px] left-[calc(50%+0.5px)] rounded-[20px] top-[283px] translate-x-[-50%] w-[352px]"
+        className="absolute bg-white h-[502px] left-[calc(50%+0.5px)] rounded-[20px] top-[283px] translate-x-[-50%] w-[352px] overflow-hidden"
       >
+        <iframe
+          ref={mapContainer}
+          src="/main_map.html"
+          className="w-full h-full border-0"
+          title="지도"
+        />
         <div aria-hidden="true" className="absolute border-[#a2cba1] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[20px]" />
       </div>
       
@@ -104,7 +136,7 @@ export default function MainPage() {
         ©️ 고려대학교 따숨
       </p>
       
-      {/* 날씨 카드 - 클릭 가능 */}
+      {/* 날씨 카드 - 클릭하면 상세정보 표시 */}
       <div 
         onClick={handleWeatherClick}
         className="absolute bg-[rgba(255,255,255,0.95)] box-border content-stretch flex flex-col h-[149px] items-start left-[calc(50%+0.5px)] pl-[17.5px] pr-[1.5px] py-[17.5px] rounded-[16px] top-[114px] translate-x-[-50%] w-[352px] cursor-pointer hover:bg-white transition-colors" data-name="날씨 카드"
@@ -114,15 +146,11 @@ export default function MainPage() {
         <div className="basis-0 grow min-h-px min-w-px relative shrink-0 w-[315.2px]">
           <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border content-stretch flex gap-[12px] h-full items-center relative w-[315.2px]">
             <div className="relative shrink-0 size-[32px]">
-              <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border relative size-[32px]">
-                <div className="absolute left-0 size-[32px] top-0">
-                  <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
-                    <g>
-                      <path d={svgPaths.p7b98a00} stroke="#6A7282" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.66667" />
-                    </g>
-                  </svg>
-                </div>
-              </div>
+              <img 
+                alt={weatherText[currentWeather || 'clear']} 
+                className="w-full h-full object-contain" 
+                src={weatherIcons[currentWeather || 'clear']} 
+              />
             </div>
             
             <div className="basis-0 grow h-[107.988px] min-h-px min-w-px relative shrink-0">
@@ -135,7 +163,7 @@ export default function MainPage() {
                   </div>
                   <div className="absolute h-[28px] left-[55.2px] top-[8px] w-[36px]">
                     <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[28px] left-0 text-[#4a5565] text-[24px] text-nowrap top-[-0.4px] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-                      흐림
+                      {weatherText[currentWeather || 'clear']}
                     </p>
                   </div>
                 </div>
@@ -231,6 +259,15 @@ export default function MainPage() {
         </div>
       </div>
       
+      {/* 날씨 변경 버튼 (개발/테스트용) */}
+      <button
+        onClick={cycleWeather}
+        className="absolute left-[20px] top-[20px] bg-[#a2cba1] text-white px-3 py-1.5 rounded-lg text-[14px] cursor-pointer hover:bg-[#92bb91] transition-colors border-0 z-10"
+        title="클릭하여 날씨 변경 (개발용)"
+      >
+        날씨: {weatherText[currentWeather || 'clear']}
+      </button>
+
       {/* 설정 아이콘 - 음성 안내 */}
       <div 
         onClick={handleVoiceGuidance}
@@ -256,7 +293,7 @@ export default function MainPage() {
       {showWeatherModal === 'coldwave' && <WeatherDetailColdwave onClose={closeModal} />}
       
       {/* 경로검색 모달 */}
-      {showRouteSearch && <RouteSearch onClose={closeRouteSearch} />}
+      {showRouteSearch && <RouteSearch onClose={closeRouteSearch} weather={currentWeather || 'clear'} />}
     </div>
   );
 }

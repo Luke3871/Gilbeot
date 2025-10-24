@@ -1,25 +1,60 @@
 import { useState } from 'react';
 import svgPaths from "../imports/svg-8rtyo7qwwc";
 import imgFreeIconHeavyRain75125171 from "figma:asset/b51afe743783e5d334bfbc7fe3e4d8f95aa92ce2.png";
+import imgFreeIconHeatwave176495541 from "figma:asset/6848cddb290bc168041765604099d6db945b78f7.png";
+import imgFreeIconThermometer100438981 from "figma:asset/fce20544b46886313762578b47d2089e417d5c88.png";
 import imgHistory from "figma:asset/ea2ef4cea2d115c2dbf0fe8cfad9329c71837e2f.png";
 import imgDistance from "figma:asset/b2cc293147aa05230b79ddfcd33c249c9131fdc4.png";
 import imgHomeButton1 from "figma:asset/96d25598b2e1fe4a533c71d0332b4ee2b2923558.png";
 import imgFreeIconCaution45394722 from "figma:asset/541382b4734b7c75071b071e22e70b945142ebf5.png";
 import RouteShareModal from './RouteShareModal';
 
+type WeatherType = 'clear' | 'rain' | 'heatwave' | 'coldwave';
+
 interface SafeRouteNavigationProps {
   onClose: () => void;
   onHome?: () => void;
   departure: string;
   destination: string;
+  weather?: WeatherType;
 }
 
-export default function SafeRouteNavigation({ onClose, onHome, departure, destination }: SafeRouteNavigationProps) {
+export default function SafeRouteNavigation({ onClose, onHome, departure, destination, weather = 'clear' }: SafeRouteNavigationProps) {
   const [showShareModal, setShowShareModal] = useState(false);
+
+  // 날씨별 메시지 및 아이콘
+  const weatherInfo = {
+    rain: {
+      message1: '비가 와서 길이 미끄러우니',
+      message2: '경사로 적은 길을 추천드려요.',
+      icon: imgFreeIconHeavyRain75125171,
+      voiceMessage: '비가 와서 길이 미끄러우니 경사로 적은 길을 추천드려요.'
+    },
+    heatwave: {
+      message1: '날씨가 더우니',
+      message2: '그늘진 길을 추천드려요.',
+      icon: imgFreeIconHeatwave176495541,
+      voiceMessage: '날씨가 더우니 그늘진 길을 추천드려요.'
+    },
+    coldwave: {
+      message1: '날씨가 추워 길이 미끄러우니',
+      message2: '미끄럽지 않은 길을 추천드려요.',
+      icon: imgFreeIconThermometer100438981,
+      voiceMessage: '날씨가 추워 길이 미끄러우니 미끄럽지 않은 길을 추천드려요.'
+    },
+    clear: {
+      message1: '안전한 경로를',
+      message2: '추천드려요.',
+      icon: imgFreeIconHeavyRain75125171, // 맑음은 일단 기본 아이콘 사용
+      voiceMessage: '안전한 경로를 추천드려요.'
+    }
+  };
+
+  const currentWeatherInfo = weatherInfo[weather];
 
   const handleVoiceGuide = () => {
     const utterance = new SpeechSynthesisUtterance(
-      `안전 경로로 안내합니다. ${departure || '월곡사회복지관'}에서 ${destination || '고려대역'}까지 22분 소요되며, 거리는 2.8킬로미터입니다. 비가 와서 길이 미끄러우니 경사로 적은 길을 추천드려요. 위험 요소 3개를 회피합니다.`
+      `안전 경로로 안내합니다. ${departure || '월곡사회복지관'}에서 ${destination || '고려대역'}까지 22분 소요되며, 거리는 2.8킬로미터입니다. ${currentWeatherInfo.voiceMessage} 위험 요소 3개를 회피합니다.`
     );
     utterance.lang = 'ko-KR';
     utterance.rate = 0.9;
@@ -35,8 +70,7 @@ export default function SafeRouteNavigation({ onClose, onHome, departure, destin
   return (
     <>
       <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
-      <div className="relative size-full" data-name="안전 경로 - 비">
-        <div className="absolute bg-white h-[852px] left-0 top-0 w-[393px]" data-name="bg" />
+      <div className="bg-white relative rounded-[30px] w-[393px] h-[852px]" data-name="안전 경로 - 비">
         
         <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] left-[calc(50%+0.5px)] text-[#6a7282] text-[18px] text-center text-nowrap top-[806px] tracking-[-1.5px] translate-x-[-50%] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
           ©️ 고려대학교 따숨
@@ -69,38 +103,47 @@ export default function SafeRouteNavigation({ onClose, onHome, departure, destin
           <div className="absolute bg-white h-[729.6px] left-0 top-0 w-[393px]" data-name="bg" />
           
           {/* 위험요소 알림 */}
-          <div className="absolute bg-[#a2cba1] h-[82px] left-[calc(50%-2.3px)] rounded-[15px] top-[176px] translate-x-[-50%] w-[347px]" data-name="위험요소 알림">
+          <div className="absolute bg-[#a2cba1] h-[82px] left-[50%] rounded-[15px] top-[176px] translate-x-[-50%] w-[347px]" data-name="위험요소 알림">
             <div aria-hidden="true" className="absolute border-[1.5px] border-solid border-white inset-0 pointer-events-none rounded-[15px]" />
             <div className="absolute flex flex-col font-['Nunito:Medium',_'Noto_Sans_KR:Medium',_sans-serif] font-medium h-[18px] justify-center leading-[28px] left-[59px] text-[18px] text-white top-[42px] translate-y-[-50%] w-[297px]">
-              <p className="mb-0">비가 와서 길이 미끄러우니</p>
-              <p>경사로 적은 길을 추천드려요.</p>
+              <p className="mb-0">{currentWeatherInfo.message1}</p>
+              <p>{currentWeatherInfo.message2}</p>
             </div>
-            <div className="absolute left-[16px] size-[33px] top-[24px]" data-name="free-icon-heavy-rain-7512517 1">
-              <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgFreeIconHeavyRain75125171} />
+            <div className="absolute left-[16px] size-[33px] top-[24px]" data-name="weather-icon">
+              <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={currentWeatherInfo.icon} />
             </div>
           </div>
 
           {/* 시간 거리 */}
-          <div className="absolute contents left-[75px] top-[116px]" data-name="시간 거리">
-            <div className="absolute left-[calc(50%-135px)] size-[27px] top-[140px]" data-name="history">
-              <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgHistory} />
+          <div className="absolute left-[50%] top-[130px] translate-x-[-50%] flex items-center justify-center gap-4" data-name="시간 거리">
+            <div className="flex items-center gap-1.5">
+              <div className="size-[27px]" data-name="history">
+                <img alt="" className="w-full h-full object-cover" src={imgHistory} />
+              </div>
+              <p className="font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px] whitespace-nowrap" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+                22분
+              </p>
             </div>
-            <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] left-[calc(50%-100px)] text-[#6a7282] text-[18px] text-center text-nowrap top-[141px] tracking-[-1.5px] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-              22분
-            </p>
-            <div className="absolute left-[calc(50%-56px)] size-[34px] top-[138px]" data-name="distance">
-              <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgDistance} />
+            <div className="flex items-center gap-1.5">
+              <div className="size-[34px]" data-name="distance">
+                <img alt="" className="w-full h-full object-cover" src={imgDistance} />
+              </div>
+              <p className="font-['Noto_Sans:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px] whitespace-nowrap" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+                2.8km
+              </p>
             </div>
-            <p className="absolute font-['Noto_Sans:Regular',_sans-serif] font-normal leading-[25px] left-[calc(50%-15px)] text-[#6a7282] text-[18px] text-nowrap top-[141px] tracking-[-1.5px] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-              2.8km
-            </p>
           </div>
 
           {/* 지도 영역 */}
-          <div className="absolute bg-white h-[485px] left-[calc(50%+0.2px)] rounded-[20px] top-[258px] translate-x-[-50%] w-[352px]" data-name="최단경로">
+          <div className="absolute bg-white h-[485px] left-[50%] rounded-[20px] top-[258px] translate-x-[-50%] w-[352px]" data-name="최단경로">
             <div aria-hidden="true" className="absolute border-[#a2cba1] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[20px]" />
             <iframe 
-              src="https://ssonseohyeon.github.io/gillbut/scenario1"
+              src={
+                weather === 'rain' ? 'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_3_강수.html' :
+                weather === 'heatwave' ? 'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_5_폭염.html' :
+                weather === 'coldwave' ? 'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_9_한파.html' :
+                'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_1_맑음.html'
+              }
               className="absolute inset-0 w-full h-full rounded-[20px]"
               title="안전 경로 지도"
               style={{ border: 'none' }}
@@ -124,11 +167,11 @@ export default function SafeRouteNavigation({ onClose, onHome, departure, destin
             </svg>
           </button>
 
-          <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] left-1/2 text-[#6a7282] text-[30px] text-center text-nowrap top-[41px] tracking-[-1.5px] translate-x-[-50%] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+          <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] left-[calc(50%-58.5px)] text-[#6a7282] text-[30px] top-[41px] tracking-[-1.5px] w-[117px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
             안전 경로
           </p>
           
-          <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_'Noto_Sans_Symbols:Regular',_sans-serif] font-normal leading-[25px] left-1/2 text-[#6a7282] text-[18px] text-center top-[82px] tracking-[-1.5px] max-w-[280px] translate-x-[-50%] break-words" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+          <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_'Noto_Sans_Symbols:Regular',_sans-serif] font-normal leading-[25px] left-[75px] text-[#6a7282] text-[18px] text-nowrap top-[82px] tracking-[-1.5px] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
             {departure || '월곡사회복지관'} → {destination || '고려대역'}
           </p>
 

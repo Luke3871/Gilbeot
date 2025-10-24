@@ -4,8 +4,11 @@ import imgMagnifier1 from "figma:asset/d0e0353cab5ee4a2f8f42c9390cf467acd4dc4d7.
 import imgTime1 from "figma:asset/86e4831e0d40d474414293ed96169ba9c720a7aa.png";
 import RouteSelection from './RouteSelection';
 
+type WeatherType = 'clear' | 'rain' | 'heatwave' | 'coldwave';
+
 interface RouteSearchProps {
   onClose: () => void;
+  weather?: WeatherType;
 }
 
 interface SearchHistory {
@@ -14,7 +17,7 @@ interface SearchHistory {
   timestamp: number;
 }
 
-export default function RouteSearch({ onClose }: RouteSearchProps) {
+export default function RouteSearch({ onClose, weather = 'clear' }: RouteSearchProps) {
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
   const [showRouteSelection, setShowRouteSelection] = useState(false);
@@ -73,6 +76,7 @@ export default function RouteSearch({ onClose }: RouteSearchProps) {
         onClose={() => setShowRouteSelection(false)}
         departure={departure}
         destination={destination}
+        weather={weather}
       />
     );
   }

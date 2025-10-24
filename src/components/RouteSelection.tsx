@@ -7,13 +7,16 @@ import imgShield from "figma:asset/aeb1449f27d63f126cb034272c1641d145b189dd.png"
 import FastRouteNavigation from './FastRouteNavigation';
 import SafeRouteNavigation from './SafeRouteNavigation';
 
+type WeatherType = 'clear' | 'rain' | 'heatwave' | 'coldwave';
+
 interface RouteSelectionProps {
   onClose: () => void;
   departure: string;
   destination: string;
+  weather?: WeatherType;
 }
 
-export default function RouteSelection({ onClose, departure, destination }: RouteSelectionProps) {
+export default function RouteSelection({ onClose, departure, destination, weather = 'clear' }: RouteSelectionProps) {
   const [selectedRoute, setSelectedRoute] = useState<'fast' | 'safe' | null>(null);
 
   const handleFastRouteClick = () => {
@@ -37,7 +40,7 @@ export default function RouteSelection({ onClose, departure, destination }: Rout
   }
 
   if (selectedRoute === 'safe') {
-    return <SafeRouteNavigation onClose={closeNavigation} onHome={handleHome} departure={departure} destination={destination} />;
+    return <SafeRouteNavigation onClose={closeNavigation} onHome={handleHome} departure={departure} destination={destination} weather={weather} />;
   }
 
   return (
