@@ -139,10 +139,10 @@ export default function SafeRouteNavigation({ onClose, onHome, departure, destin
             <div aria-hidden="true" className="absolute border-[#a2cba1] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[20px]" />
             <iframe 
               src={
-                weather === 'rain' ? 'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_3_강수.html' :
-                weather === 'heatwave' ? 'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_5_폭염.html' :
-                weather === 'coldwave' ? 'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_9_한파.html' :
-                'https://raw.githubusercontent.com/Luke3871/Gilbeot/main/src/scenario_1_맑음.html'
+                weather === 'rain' ? 'https://luke3871.github.io/Gilbeot/src/scenario_3_강수.html' :
+                weather === 'heatwave' ? 'https://luke3871.github.io/Gilbeot/src/scenario_5_폭염.html' :
+                weather === 'coldwave' ? 'https://luke3871.github.io/Gilbeot/src/scenario_9_한파.html' :
+                'https://luke3871.github.io/Gilbeot/src/scenario_1_맑음.html'
               }
               className="absolute inset-0 w-full h-full rounded-[20px]"
               title="안전 경로 지도"
@@ -171,9 +171,14 @@ export default function SafeRouteNavigation({ onClose, onHome, departure, destin
             안전 경로
           </p>
           
-          <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_'Noto_Sans_Symbols:Regular',_sans-serif] font-normal leading-[25px] left-[75px] text-[#6a7282] text-[18px] text-nowrap top-[82px] tracking-[-1.5px] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-            {departure || '월곡사회복지관'} → {destination || '고려대역'}
-          </p>
+          <div className="absolute left-[75px] top-[82px] max-w-[280px]">
+            <p className="font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_'Noto_Sans_Symbols:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+              {departure || '월곡사회복지관'} →
+            </p>
+            <p className="font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+              {destination || '고려대역'}
+            </p>
+          </div>
 
           {/* 뒤로가기 버튼 */}
           <button 

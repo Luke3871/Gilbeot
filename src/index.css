@@ -556,20 +556,12 @@
     top: 114px;
   }
 
-  .top-\[116px\] {
-    top: 116px;
-  }
-
-  .top-\[118px\] {
-    top: 118px;
-  }
-
-  .top-\[119px\] {
-    top: 119px;
-  }
-
   .top-\[130px\] {
     top: 130px;
+  }
+
+  .top-\[143px\] {
+    top: 143px;
   }
 
   .top-\[148px\] {
@@ -626,10 +618,6 @@
 
   .top-\[285px\] {
     top: 285px;
-  }
-
-  .top-\[302px\] {
-    top: 302px;
   }
 
   .top-\[309px\] {
@@ -860,10 +848,6 @@
     left: 165.5px;
   }
 
-  .left-\[166px\] {
-    left: 166px;
-  }
-
   .left-\[189\.02px\] {
     left: 189.02px;
   }
@@ -898,10 +882,6 @@
 
   .left-\[calc\(50\%\+0\.5px\)\] {
     left: calc(50% + .5px);
-  }
-
-  .left-\[calc\(50\%\+18\.5px\)\] {
-    left: calc(50% + 18.5px);
   }
 
   .left-\[calc\(50\%\+58px\)\] {
@@ -946,10 +926,6 @@
 
   .left-\[calc\(50\%-58\.5px\)\] {
     left: calc(50% - 58.5px);
-  }
-
-  .left-\[calc\(50\%-60px\)\] {
-    left: calc(50% - 60px);
   }
 
   .left-\[calc\(50\%-66px\)\] {
@@ -1231,10 +1207,6 @@
     height: 244px;
   }
 
-  .h-\[404px\] {
-    height: 404px;
-  }
-
   .h-\[485px\] {
     height: 485px;
   }
@@ -1389,6 +1361,10 @@
 
   .w-full {
     width: 100%;
+  }
+
+  .max-w-\[280px\] {
+    max-width: 280px;
   }
 
   .max-w-none {

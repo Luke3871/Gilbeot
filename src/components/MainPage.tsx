@@ -41,6 +41,34 @@ export default function MainPage() {
     coldwave: imgFreeIconThermometer100438981
   };
 
+  // 날씨별 상세 데이터 (날씨 디테일 페이지의 세부 정보와 동일)
+  const weatherData = {
+    clear: {
+      temp: '27°',
+      precipitation: '12%',
+      humidity: '78%',
+      wind: '2m/s'
+    },
+    rain: {
+      temp: '27°',
+      precipitation: '92%',
+      humidity: '88%',
+      wind: '2m/s'
+    },
+    heatwave: {
+      temp: '37°',
+      precipitation: '12%',
+      humidity: '78%',
+      wind: '2m/s'
+    },
+    coldwave: {
+      temp: '-9°',
+      precipitation: '32%',
+      humidity: '58%',
+      wind: '4m/s'
+    }
+  };
+
   useEffect(() => {
     // 카카오맵 API 스크립트 로드
     const script = document.createElement('script');
@@ -121,14 +149,10 @@ export default function MainPage() {
       >
         <iframe
           ref={mapContainer}
-          src="/main_map.html"
+          src="https://luke3871.github.io/Gilbeot/src/main_map.html"
           className="w-full h-full border-0"
           title="지도"
         />
-        <div aria-hidden="true" className="absolute border-[#a2cba1] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[20px]" />
-      </div>
-      
-      <div className="absolute bg-white h-[404px] left-1/2 rounded-[20px] top-[302px] translate-x-[-50%] w-[319px]">
         <div aria-hidden="true" className="absolute border-[#a2cba1] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[20px]" />
       </div>
       
@@ -158,7 +182,7 @@ export default function MainPage() {
                 <div className="absolute h-[36px] left-[0.5px] top-[-7.01px] w-[271.2px]">
                   <div className="absolute h-[36px] left-0 top-0 w-[47.2px]">
                     <p className="absolute font-['Noto_Sans:Medium',_sans-serif] font-medium leading-[36px] left-0 text-[#a2cba1] text-[30px] top-[-0.4px] w-[48px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-                      28°
+                      {weatherData[currentWeather || 'clear'].temp}
                     </p>
                   </div>
                   <div className="absolute h-[28px] left-[55.2px] top-[8px] w-[36px]">
@@ -170,13 +194,13 @@ export default function MainPage() {
                 
                 <div className="absolute content-stretch flex h-[20px] items-start left-[-0.5px] top-[37.99px] w-[271.2px]">
                   <p className="basis-0 font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal grow leading-[20px] min-h-px min-w-px relative shrink-0 text-[#4a5565] text-[18px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-                    서울시 강남구
+                    서울시 성북구
                   </p>
                 </div>
                 
                 <div className="absolute content-stretch flex h-[15.988px] items-start left-[-0.5px] top-[63.99px] w-[271.2px]">
                   <p className="basis-0 font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal grow leading-[16px] min-h-px min-w-px relative shrink-0 text-[#6a7282] text-[18px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-                    오후 01:55
+                    오후 5:55
                   </p>
                 </div>
                 
@@ -193,7 +217,7 @@ export default function MainPage() {
                       </div>
                       <div className="basis-0 grow h-[20px] min-h-px min-w-px relative shrink-0">
                         <p className="absolute font-['Noto_Sans:Regular',_sans-serif] font-normal leading-[20px] left-[-0.5px] text-[#4a5565] text-[18px] top-[-0.99px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-                          13%
+                          {weatherData[currentWeather || 'clear'].precipitation}
                         </p>
                       </div>
                     </div>
@@ -210,7 +234,7 @@ export default function MainPage() {
                       </div>
                       <div className="basis-0 grow h-[20px] min-h-px min-w-px relative shrink-0">
                         <p className="absolute font-['Noto_Sans:Regular',_sans-serif] font-normal leading-[20px] left-[-0.33px] text-[#4a5565] text-[18px] top-[-0.99px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-                          82%
+                          {weatherData[currentWeather || 'clear'].humidity}
                         </p>
                       </div>
                     </div>
@@ -229,7 +253,7 @@ export default function MainPage() {
                       </div>
                       <div className="basis-0 grow h-[20px] min-h-px min-w-px relative shrink-0">
                         <p className="absolute font-['Noto_Sans:Regular',_sans-serif] font-normal leading-[20px] left-[-0.15px] text-[#4a5565] text-[18px] top-[-0.99px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-                          0m/s
+                          {weatherData[currentWeather || 'clear'].wind}
                         </p>
                       </div>
                     </div>

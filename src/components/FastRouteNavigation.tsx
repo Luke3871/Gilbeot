@@ -78,23 +78,32 @@ export default function FastRouteNavigation({ onClose, onHome, departure, destin
         </button>
         
         {/* 출발지 → 도착지 */}
-        <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_'Noto_Sans_Symbols:Regular',_sans-serif] font-normal leading-[25px] left-[75px] text-[#6a7282] text-[18px] text-nowrap top-[82px] tracking-[-1.5px] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-          {departure || '월곡사회복지관'} → {destination || '고려대역'}
-        </p>
+        <div className="absolute left-[75px] top-[82px] max-w-[280px]">
+          <p className="font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_'Noto_Sans_Symbols:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+            {departure || '월곡사회복지관'} →
+          </p>
+          <p className="font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px]" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+            {destination || '고려대역'}
+          </p>
+        </div>
 
         {/* 시간/거리 정보 (아이콘 포함) */}
-        <div className="absolute contents left-[75px] top-[116px]">
-          <p className="absolute font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] left-[calc(50%-60px)] text-[#6a7282] text-[18px] text-center text-nowrap top-[119px] tracking-[-1.5px] translate-x-[-50%] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-            15분
-          </p>
-          <p className="absolute font-['Noto_Sans:Regular',_sans-serif] font-normal leading-[25px] left-[calc(50%+18.5px)] text-[#6a7282] text-[18px] text-nowrap top-[119px] tracking-[-1.5px] whitespace-pre" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
-            2.1km
-          </p>
-          <div className="absolute left-[75px] size-[27px] top-[118px]">
-            <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgHistory} />
+        <div className="absolute left-[75px] top-[143px] flex items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <div className="size-[27px]">
+              <img alt="" className="w-full h-full object-cover" src={imgHistory} />
+            </div>
+            <p className="font-['Noto_Sans:Regular',_'Noto_Sans_KR:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px] whitespace-nowrap" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+              15분
+            </p>
           </div>
-          <div className="absolute left-[166px] size-[34px] top-[116px]">
-            <img alt="" className="absolute inset-0 max-w-none object-50%-50% object-cover pointer-events-none size-full" src={imgDistance} />
+          <div className="flex items-center gap-1.5">
+            <div className="size-[34px]">
+              <img alt="" className="w-full h-full object-cover" src={imgDistance} />
+            </div>
+            <p className="font-['Noto_Sans:Regular',_sans-serif] font-normal leading-[25px] text-[#6a7282] text-[18px] tracking-[-1.5px] whitespace-nowrap" style={{ fontVariationSettings: "'CTGR' 0, 'wdth' 100" }}>
+              2.1km
+            </p>
           </div>
         </div>
 
@@ -117,9 +126,14 @@ export default function FastRouteNavigation({ onClose, onHome, departure, destin
         {/* 지도 영역 */}
         <div className="absolute bg-white h-[512px] left-[calc(50%+0.5px)] rounded-[20px] top-[235px] translate-x-[-50%] w-[352px]">
           <div aria-hidden="true" className="absolute border-[#a2cba1] border-[1.5px] border-solid inset-0 pointer-events-none rounded-[20px]" />
-          <div className="absolute inset-0 flex items-center justify-center text-[#6a7282] text-[18px]">
-            지도 영역 (카카오맵 연동)
-          </div>
+          <iframe 
+            src="https://luke3871.github.io/Gilbeot/src/scenario_1_맑음.html"
+            className="absolute inset-0 w-full h-full rounded-[20px]"
+            title="최단 경로 지도"
+            style={{ border: 'none' }}
+            allow="geolocation; fullscreen"
+            loading="lazy"
+          />
         </div>
 
         {/* 저작권 */}
